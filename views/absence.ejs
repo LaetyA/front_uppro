@@ -1,0 +1,66 @@
+<%- include('partials/head.ejs') %>
+<body>
+    <%- include("base.ejs",{a:4}) %>
+
+        <div class="main-content">
+           
+            
+<form>
+            
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom">
+              </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Prenoms</label>
+                <input type="text" class="form-control" id="prenom" >
+              </div>
+        </div>
+    </div>
+    
+    
+      <div class="mb-3">
+        <label for="absence" class="form-label">cause de l'absence</label>
+        <input type="text" class="form-control" id="motif" >
+      </div>
+
+      
+      <div class="mb-3">
+        <label for="date" class="form-label">date de debut</label>
+        <input type="date" class="form-control" id="dateDebutAbsence" >
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">date fin</label>
+        <input type="date" class="form-control" id="dateFinAbsence" >
+      </div>
+      
+      <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" onclick="infoAbsence()">Valider</button>
+    </div>
+    
+</form>
+
+            <% if (locals.data) { %>
+              <ul>
+                <% data.forEach((value)=>{ %>
+                 <li> <%= value.date_Aller %></li>
+                <% }) %>
+              </ul>
+           
+            <% } %>
+            <script>
+              function infoAbsence() {
+                  let debut = document.getElementById("dateDebutAbsence").value;
+                  console.log(debut);
+              }
+              </script>
+            
+        </div>
+    </div>
+</body>
+</html>
+

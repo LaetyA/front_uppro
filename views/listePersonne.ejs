@@ -1,0 +1,100 @@
+<%- include('partials/head.ejs') %>
+<style>
+    .scrollable-table {
+    width: 100%;
+    overflow: auto;
+    display: block;
+    
+}
+
+
+
+
+</style>
+<head>
+    <!-- ... Autres balises HEAD ... -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- ... Autres balises HEAD ... -->
+  </head>
+<body>
+  <%- include("base.ejs",{a:3}) %>
+  <div class="main-content">
+    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"style="max-height: 700px; overflow-y: auto;">
+      
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-bordered dataTable scrollable-table" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info" >
+            <!-- ... Autres balises HTML ... -->
+<thead>
+    <tr role="row">
+      <th>Nom</th>
+      <th>Prenoms</th>
+      <th>Matricule</th>
+      <th>Grade</th>
+      <th>Date de prise de service</th>
+      <th>Date de début</th>
+      <th>Date de retraite</th>
+      <!-- <th>Lieu d'habitat</th>
+      <th>Situation matrimoniale</th>
+      <th>Nombre d'enfants</th>
+      <th>Date de Naissance</th>
+      <th>Email Institut</th>
+      <th>Email Personnel</th>
+      <th>Téléphone</th> -->
+      <!-- Ajoutez d'autres colonnes au besoin -->
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% if (locals.data) { %>
+      <% data.forEach(item => { %>
+        <tr>
+          <td><%= item.nom %></td>
+          <td><%= item.prenoms %></td>
+          <td><%= item.Matricule %></td>
+          <td><%= item.id_Grade %></td>
+          <td><%= item.date_prise_service %></td>
+          <td><%= item.date_debut %></td>
+          <td><%= item.date_retraite %></td>
+          <!-- <td><%= item.lieu_habitat %></td>
+          <td><%= item.sit_matrimonial %></td>
+          <td><%= item.nbre_Enfant %></td>
+          <td><%= item.date_Naiss %></td>
+          <td><%= item.email_institut %></td>
+          <td><%= item.email_perso %></td>
+          <td><%= item.telephone %></td> -->
+          <td><i class="fas fa-edit"></i></td>
+          <td><i class="fa-solid fa-delete-left"></i></td>
+        </tr>
+      <% }); %>
+    <% } %>
+  </tbody>
+
+  
+          </table>
+          <div class="row">
+            <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 11 to 20 of 57 entries</div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+              <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                <ul class="pagination">
+                  <li class="paginate_button page-item previous" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                  <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                  <!-- ... Les autres éléments de pagination ... -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#dataTable').DataTable();
+      });
+    </script>
+  </div>
+</body>

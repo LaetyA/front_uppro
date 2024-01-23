@@ -1,0 +1,88 @@
+<%- include('partials/head.ejs') %>
+<style>
+  body {
+      overflow-y: scroll;
+  }
+</style>
+	<body>
+		<%- include("base.ejs",{a:2}) %>
+			<div class="main-content">
+
+        <form method="POST" action="/persoForm">
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" class="form-control" name="nom" id="nom">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="prenoms" class="form-label">Prenoms</label>
+                <input type="text" class="form-control" name="prenoms" id="prenoms">
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="Matricule" class="form-label">Matricule</label>
+        <input type="text" class="form-control" name="Matricule" id="Matricule">
+    </div>
+    <div class="mb-3">
+        <label for="id_Grade" class="form-label">Grade</label>
+        <input type="text" class="form-control" name="id_Grade" id="id_Grade">
+    </div>
+    <div class="mb-3">
+        <label for="date_prise_service" class="form-label">Prise de service</label>
+        <input type="date" class="form-control" name="date_prise_service" id="date_prise_service">
+    </div>
+    <div class="mb-3">
+      <label for="date_Naiss" class="form-label">Date de naissance</label>
+      <input type="date" class="form-control" name="date_Naiss" id="date_Naiss">
+    </div>
+    <div class="mb-3">
+        <label for="date_debut" class="form-label">Date de début</label>
+        <input type="date" class="form-control" name="date_debut" id="date_debut">
+    </div>
+    <div class="mb-3">
+        <label for="date_retraite" class="form-label">Date de retraite</label>
+        <input type="date" class="form-control" name="date_retraite" id="date_retraite">
+    </div>
+    <div class="mb-3">
+        <label for="lieu_habitat" class="form-label">Lieu d'habitation</label>
+        <input type="text" class="form-control" name="lieu_habitat" id="lieu_habitat">
+    </div>
+    <div class="mb-3">
+        <label for="sit_matrimonial" class="form-label">Situation matrimoniale</label>
+        <input type="text" class="form-control" name="sit_matrimonial" id="sit_matrimonial">
+    </div>
+    <div class="mb-3">
+        <label for="nbre_Enfant" class="form-label">Nombre d'enfants</label>
+        <input type="number" class="form-control" name="nbre_Enfant" id="nbre_Enfant">
+    </div>
+    <div class="mb-3">
+      <label for="telephone" class="form-label">telephone</label>
+      <input type="number" class="form-control" name="telephone" id="telephone">
+  </div>
+  <div class="mb-3">
+    <label for="email_institut" class="form-label">email institut</label>
+    <input type="email" class="form-control" name="email_institut" id="email_institut">
+</div>
+<div class="mb-3">
+  <label for="email_perso" class="form-label">email institut</label>
+  <input type="email" class="form-control" name="email_perso" id="email_perso">
+</div>
+    <!-- Ajoutez d'autres champs ici selon vos besoins -->
+    <!-- <div class="mb-3">
+        <label for="formFileMultiple" class="form-label">Sélectionner des fichiers</label>
+        <input class="form-control" type="file" id="formFileMultiple" name="formFileMultiple" multiple>
+    </div> -->
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
+</form>
+
+			</div>
+			</div>
+	</body>
+
+	</html>
