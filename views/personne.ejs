@@ -1,14 +1,10 @@
 <%- include('partials/head.ejs') %>
-<style>
-  body {
-      overflow-y: scroll;
-  }
-</style>
+
 	<body>
 		<%- include("base.ejs",{a:2}) %>
-			<div class="main-content">
+			<div class="main-content" style="height: 700px;overflow-y: scroll;">
 
-        <form method="POST" action="/persoForm">
+        <form method="POST" action="/persoForm" >
     <div class="row">
         <div class="col-6">
             <div class="mb-3">

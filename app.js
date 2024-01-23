@@ -41,7 +41,7 @@ app.get("/listeP",async(req,res)=>{
     const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
 
     const result = response.data.items;
-    console.log(result)
+    // console.log(result)
     res.render("listePersonne.ejs",{data:result});
     // res.send(result)
 
@@ -176,39 +176,18 @@ app.post("/modifPerso/:id", async (req, res) => {
     };
 
     // Utilisez directement l'id_Perso extrait du formulaire
-    console.log(formData.id_Perso);
+    // console.log(formData.id_Perso);
 
     const response = await axios.put(`http://127.0.0.1:8000/api/api/drh/personnels/modifier/${formData.id_Perso}`, formData);
 
-    console.log(response.data); // Affichez la réponse de l'API
-
-    res.send("ok");
+    // console.log(response.data); // Affichez la réponse de l'API
+    res.redirect("/listeP");
   } catch (error) {
     console.error("Erreur API : ", error.message);
     res.status(500).send("Erreur appel API");
   }
 });
-app.post("/suppPerso/:id", async (req, res) => {
-  try {
-    // Extractez les données du formulaire depuis req.body
-    const formData = {
 
-      id_Perso: req.params.id, // Utilisez req.params.id pour obtenir l'ID de l'URL
-    };
-
-    // Utilisez directement l'id_Perso extrait du formulaire
-    console.log(formData.id_Perso);
-
-    const response = await axios.delete(`http://127.0.0.1:8000/api/api/drh/personnels/supprimer/${formData.id_Perso}`, formData);
-
-    console.log(response.data); // Affichez la réponse de l'API
-
-    res.send("ok");
-  } catch (error) {
-    console.error("Erreur API : ", error.message);
-    res.status(500).send("Erreur appel API");
-  }
-});
 
 
 
@@ -243,7 +222,7 @@ app.get("/ajouter-absence", async (req, res) => {
     const response = await axios.get("http://127.0.0.1:8000/api/api/drh/absence/liste");
 
     const result = response.data.items;
-    console.log(result)
+    // console.log(result)
     res.render("absence.ejs",{data:result});
     // res.send(result)
 
