@@ -1,100 +1,211 @@
 <%- include('partials/head.ejs') %>
 <style>
-    .scrollable-table {
-    width: 100%;
-    overflow: auto;
-    display: block;
-    
-}
-
-
-
-
+  body {
+    overflow-y: scroll;
+  }
 </style>
 <head>
-    <!-- ... Autres balises HEAD ... -->
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- ... Autres balises HEAD ... -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
   </head>
+  
 <body>
-  <%- include("base.ejs",{a:3}) %>
+  <%- include("base.ejs",{a:2}) %>
   <div class="main-content">
-    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"style="max-height: 700px; overflow-y: auto;">
-      
-      <div class="row">
-        <div class="col-sm-12">
-          <table class="table table-bordered dataTable scrollable-table" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info" >
-            <!-- ... Autres balises HTML ... -->
-<thead>
-    <tr role="row">
-      <th>Nom</th>
-      <th>Prenoms</th>
-      <th>Matricule</th>
-      <th>Grade</th>
-      <th>Date de prise de service</th>
-      <th>Date de début</th>
-      <th>Date de retraite</th>
-      <!-- <th>Lieu d'habitat</th>
-      <th>Situation matrimoniale</th>
-      <th>Nombre d'enfants</th>
-      <th>Date de Naissance</th>
-      <th>Email Institut</th>
-      <th>Email Personnel</th>
-      <th>Téléphone</th> -->
-      <!-- Ajoutez d'autres colonnes au besoin -->
-    </tr>
-  </thead>
-  
-  <tbody>
-    <% if (locals.data) { %>
-      <% data.forEach(item => { %>
-        <tr>
-          <td><%= item.nom %></td>
-          <td><%= item.prenoms %></td>
-          <td><%= item.Matricule %></td>
-          <td><%= item.id_Grade %></td>
-          <td><%= item.date_prise_service %></td>
-          <td><%= item.date_debut %></td>
-          <td><%= item.date_retraite %></td>
-          <!-- <td><%= item.lieu_habitat %></td>
-          <td><%= item.sit_matrimonial %></td>
-          <td><%= item.nbre_Enfant %></td>
-          <td><%= item.date_Naiss %></td>
-          <td><%= item.email_institut %></td>
-          <td><%= item.email_perso %></td>
-          <td><%= item.telephone %></td> -->
-          <td><i class="fas fa-edit"></i></td>
-          <td><i class="fa-solid fa-delete-left"></i></td>
+    
+    <table class="table table-bordered dataTable scrollable-table" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
+      <thead>
+        <tr role="row">
+          <th>Nom</th>
+          <th>Prenoms</th>
+          <th>Matricule</th>
+          <th>Grade</th>
+          <th>Date de prise de service</th>
+          <th>Date de début</th>
+          <th>Date de retraite</th>
+          <th>Actions</th>
         </tr>
-      <% }); %>
-    <% } %>
-  </tbody>
+      </thead>
 
-  
-          </table>
-          <div class="row">
-            <div class="col-sm-12 col-md-5">
-              <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 11 to 20 of 57 entries</div>
+      <tbody>
+        <% if (locals.data) { %>
+          <% data.forEach((item, index) => { %>
+            <tr class="table-row" >
+              <td><%= item.nom %></td>
+              <td><%= item.prenoms %></td>
+              <td><%= item.Matricule %></td>
+              <td><%= item.id_Grade %></td>
+              <td><%= item.date_prise_service %></td>
+              <td><%= item.date_debut %></td>
+              <td><%= item.date_retraite %></td>
+              
+              <td>
+                <i class="fas fa-edit" data-toggle="modal" data-target="#editModal<%= index %>" style="margin-right: 10px;">   
+            </i>
+            <i class="fa-solid fa-trash"></i></td>
+            </tr>
+
+            <!-- Modal pour chaque ligne -->
+            <div class="modal fade" id="editModal<%= index %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modifier les informations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+         
+                    <form method="POST" action="/modifPerso/<%= item.id_Perso %>">
+                        
+    
+<input type="hidden" name="id_Perso" value="<%= item.id_Perso %>">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" class="form-control" name="nom" id="nom" value="<%= item.nom %>">
             </div>
-            <div class="col-sm-12 col-md-7">
-              <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                <ul class="pagination">
-                  <li class="paginate_button page-item previous" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                  <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                  <!-- ... Les autres éléments de pagination ... -->
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="prenoms" class="form-label">Prenoms</label>
+                <input type="text" class="form-control" name="prenoms" id="prenoms" value="<%= item.prenoms %>">
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $('#dataTable').DataTable();
-      });
-    </script>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="Matricule" class="form-label">Matricule</label>
+                <input type="text" class="form-control" name="Matricule" id="Matricule" value="<%= item.Matricule %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="Grade" class="form-label">Grade</label>
+                <input type="text" class="form-control" name="id_Grade" id="id_Grade" value="<%= item.id_Grade %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="date_Naiss" class="form-label">Date de naissance</label>
+                <input type="date" class="form-control" name="date_Naiss" id="date_Naiss" value="<%= item.date_Naiss %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="fonction" class="form-label">Fonction</label>
+                <input type="text" class="form-control" name="fonction" id="fonction" value="<%= item.fonction %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="date_prise_service" class="form-label">Prise de service</label>
+                <input type="date" class="form-control" name="date_prise_service" id="date_prise_service" value="<%= item.date_prise_service %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="date_debut" class="form-label">Date de début</label>
+                <input type="date" class="form-control" name="date_debut" id="date_debut" value="<%= item.date_debut %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="date_retraite" class="form-label">Date de retraite</label>
+                <input type="date" class="form-control" name="date_retraite" id="date_retraite" value="<%= item.date_retraite %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="lieu_habitat" class="form-label">Lieu d'habitation</label>
+                <input type="text" class="form-control" name="lieu_habitat" id="lieu_habitat" value="<%= item.lieu_habitat %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="sit_matrimonial" class="form-label">Situation matrimoniale</label>
+                <input type="text" class="form-control" name="sit_matrimonial" id="sit_matrimonial" value="<%= item.sit_matrimonial %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="nbre_Enfant" class="form-label">Nombre d'enfants</label>
+                <input type="number" class="form-control" name="nbre_Enfant" id="nbre_Enfant" value="<%= item.nbre_Enfant %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="telephone" class="form-label">Téléphone</label>
+                <input type="number" class="form-control" name="telephone" id="telephone" value="<%= item.telephone %>">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="email_institut" class="form-label">Email institut</label>
+                <input type="email" class="form-control" name="email_institut" id="email_institut" value="<%= item.email_institut %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="email_perso" class="form-label">Email personnel</label>
+                <input type="email" class="form-control" name="email_perso" id="email_perso" value="<%= item.email_perso %>">
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </div>
+</form>
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
   </div>
+
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#dataTable').DataTable();
+    });
+  </script>
 </body>
+</html>

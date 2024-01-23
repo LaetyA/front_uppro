@@ -154,6 +154,63 @@ app.post("/persoForm", async (req, res) => {
   }
 });
 
+app.post("/modifPerso/:id", async (req, res) => {
+  try {
+    // Extractez les données du formulaire depuis req.body
+    const formData = {
+      nom: req.body.nom,
+      prenoms: req.body.prenoms,
+      Matricule: req.body.Matricule,
+      id_Grade: req.body.id_Grade,
+      date_prise_service: req.body.date_prise_service,
+      date_debut: req.body.date_debut,
+      date_retraite: req.body.date_retraite,
+      lieu_habitat: req.body.lieu_habitat,
+      sit_matrimonial: req.body.sit_matrimonial,
+      nbre_Enfant: req.body.nbre_Enfant,
+      date_Naiss: req.body.date_Naiss,
+      email_institut: req.body.email_institut,
+      email_perso: req.body.email_perso,
+      telephone: req.body.telephone,
+      id_Perso: req.params.id, // Utilisez req.params.id pour obtenir l'ID de l'URL
+    };
+
+    // Utilisez directement l'id_Perso extrait du formulaire
+    console.log(formData.id_Perso);
+
+    const response = await axios.put(`http://127.0.0.1:8000/api/api/drh/personnels/modifier/${formData.id_Perso}`, formData);
+
+    console.log(response.data); // Affichez la réponse de l'API
+
+    res.send("ok");
+  } catch (error) {
+    console.error("Erreur API : ", error.message);
+    res.status(500).send("Erreur appel API");
+  }
+});
+app.post("/suppPerso/:id", async (req, res) => {
+  try {
+    // Extractez les données du formulaire depuis req.body
+    const formData = {
+
+      id_Perso: req.params.id, // Utilisez req.params.id pour obtenir l'ID de l'URL
+    };
+
+    // Utilisez directement l'id_Perso extrait du formulaire
+    console.log(formData.id_Perso);
+
+    const response = await axios.delete(`http://127.0.0.1:8000/api/api/drh/personnels/supprimer/${formData.id_Perso}`, formData);
+
+    console.log(response.data); // Affichez la réponse de l'API
+
+    res.send("ok");
+  } catch (error) {
+    console.error("Erreur API : ", error.message);
+    res.status(500).send("Erreur appel API");
+  }
+});
+
+
 
 app.get('/ajouter', (req, res) => {
   const typeAjout = req.query.type_ajout;
