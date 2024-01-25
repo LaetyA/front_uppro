@@ -15,42 +15,64 @@ app.use(morgan('dev'));
 const port = 3000;
 const  __dirname = dirname(fileURLToPath(import.meta.url));
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Utilisateur MySQL
-    password: '', // Aucun mot de passe
-    database: 'sirh'
-  });
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root', // Utilisateur MySQL
+//     password: '', // Aucun mot de passe
+//     database: 'sirh'
+//   });
   
-  connection.connect((err) => {
-    if (err) {
-      console.error('Erreur de connexion à MySQL :', err);
-    } else {
-      console.log('Connexion à MySQL réussie');
-    }
-  });
+//   connection.connect((err) => {
+//     if (err) {
+//       console.error('Erreur de connexion à MySQL :', err);
+//     } else {
+//       console.log('Connexion à MySQL réussie');
+//     }
+//   });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use(express.static('public'));
 
-app.get("/listeP",async(req,res)=>{
-  try {
+// app.get("/listeP",async(req,res)=>{
+//   try {
 
-    const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
+//     const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
+
+//     const result = response.data.items;
+//     // console.log(result)
+//     res.render("listePersonne.ejs",{data:result});
+//     // res.send(result)
+
+//   } catch (error) {
+    
+//     console.error("Erreur lors de la requête API :", error.message);
+//     res.status(500).send("Erreur lors de la requête API");
+//   }
+// })
+
+app.get("/listeP", async (req, res) => {
+  try {
+    
+
+    const headers = {
+      // Ajoutez le token dans l'en-tête 'Authorization'
+      Authorization: `Bearer ${accessToken}`
+    };
+
+    const apiEndpoint = "http://127.0.0.1:8000/api/api/drh/personnels/liste";
+
+    const response = await axios.get(apiEndpoint, { headers });
 
     const result = response.data.items;
-    // console.log(result)
-    res.render("listePersonne.ejs",{data:result});
-    // res.send(result)
-
+    res.render("listePersonne.ejs", { data: result });
   } catch (error) {
-    
     console.error("Erreur lors de la requête API :", error.message);
     res.status(500).send("Erreur lors de la requête API");
   }
-})
+});
+
 
 app.get("/",(req,res) =>{
     // res.sendFile(__dirname+"/views/authentification.html");
@@ -65,27 +87,64 @@ app.get("/login",(req,res) =>{
     // res.sendFile(__dirname+"/views/login.html");
     res.render("login.ejs")
 })
+// Déclarez une variable à un niveau global pour stocker les tokens
+let accessToken;
 
-app.post("/login",async (req,res)=>{
-  const formData ={
-    username:req.body.username,
-    password:req.body.password
-  }
-  try{
+app.post("/login", async (req, res) => {
+  const formData = {
+    username: req.body.username,
+    password: req.body.password
+  };
+
+  try {
     const apiEndPoint = "http://127.0.0.1:8000/api/api/drh/drh/connexion";
-    const response = await axios.post(apiEndPoint,formData);
-    if(response.status===200){
+    const response = await axios.post(apiEndPoint, formData);
+
+    if (response.status === 200) {
+      // Stockez le token dans la variable globale
+      accessToken = response.data.token;
+
+      // Vous pouvez maintenant utiliser 'accessToken' dans d'autres parties de votre application
       res.render("accueil.ejs");
+    } else {
+      res.status(response.status).send("erreur connexion");
     }
-    else{
-      res.status(response.status).send("erreur connexion")
-    }
-  }
-  catch(error){
+  } catch (error) {
     console.error("erreur api");
-    res.status(500).send("erreur lors de la connexion")
+    res.status(500).send("erreur lors de la connexion");
   }
-})
+});
+
+// Vous pouvez maintenant utiliser 'accessToken' dans d'autres parties de votre application
+// Par exemple, vous pouvez l'utiliser dans d'autres routes ou fonctions
+// en tant que variable globale accessible.
+
+
+// bon login
+// app.post("/login",async (req,res)=>{
+//   const formData ={
+//     username:req.body.username,
+//     password:req.body.password
+//   }
+//   try{
+//     const apiEndPoint = "http://127.0.0.1:8000/api/api/drh/drh/connexion";
+//     const response = await axios.post(apiEndPoint,formData);
+//     if(response.status===200){
+//       res.render("accueil.ejs");
+//     }
+//     else{
+//       res.status(response.status).send("erreur connexion")
+//     }
+//   }
+//   catch(error){
+//     console.error("erreur api");
+//     res.status(500).send("erreur lors de la connexion")
+//   }
+// })
+
+
+
+
 // app.post("/register",(req,res) =>{
 //     const nom = req.body.nom;
 //     const poste = req.body.poste;
@@ -134,7 +193,9 @@ app.post("/persoForm", async (req, res) => {
           date_Naiss: req.body.date_Naiss,
           email_institut : req.body.email_institut,
           email_perso : req.body.email_perso,
-          telephone: req.body.telephone
+          telephone: req.body.telephone,
+          fonction:req.body.fonction,
+          sexe:req.body.sexe
           
       };
       // console.log(formData)
@@ -143,7 +204,7 @@ app.post("/persoForm", async (req, res) => {
       // console.log(response.data);
    
 
-      res.send("ok");
+      res.redirect("/personne")
   } catch (error) {
       console.error("Erreur API : ", error.message);
       res.status(500).send("Erreur appel API");

@@ -5,68 +5,198 @@
 			<div class="main-content" style="height: 700px;overflow-y: scroll;">
 
         <form method="POST" action="/persoForm" >
-    <div class="row">
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="nom" class="form-label">Nom</label>
-                <input type="text" class="form-control" name="nom" id="nom">
+            <div class="card">
+                <div class="card-header">
+                  Information personnelle
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Special title treatment</h5>
+                  <div class="row m-3">
+                    <div class="col-6 ">
+                        <div class="mb-3">
+                            <label for="nom" class="form-label">Nom</label>
+                            <input type="text" class="form-control" name="nom" id="nom"  required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="prenoms" class="form-label">Prenoms</label>
+                            <input type="text" class="form-control" name="prenoms" id="prenoms"  required>
+                        </div>
+                    </div>
+                </div>
+                
+               
+                <div class="row m-3">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="lieu_habitat" class="form-label">Lieu d'habitation</label>
+                            <input type="text" class="form-control" name="lieu_habitat" id="lieu_habitat"  required>
+                        </div>
+                        
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="date_Naiss" class="form-label">Date de naissance</label>
+                            <input type="date" class="form-control" name="date_Naiss" id="date_Naiss"  required>
+                          </div>
+                    </div>
+                    
+                </div>
+                <div class="row m-3">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="telephone" class="form-label">telephone</label>
+                            <input type="number" class="form-control" name="telephone" id="telephone"  required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="email_perso" class="form-label">email personnel</label>
+                            <input type="email" class="form-control" name="email_perso" id="email_perso"  required>
+                          </div>
+                    </div>
+                </div>
+                <div class="row m-3">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="sit_matrimonial" class="form-label">Situation matrimoniale</label>
+                            <input type="text" class="form-control" name="sit_matrimonial" id="sit_matrimonial">
+                        </div>
+                        
+                       
+                    </div>
+                    <div class="col-2">
+                        <div class="mb-3">
+                            <label for="nbre_Enfant" class="form-label">Nombre d'enfants</label>
+                            <input type="number" class="form-control" name="nbre_Enfant" id="nbre_Enfant"  required>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-3">
+                            <label for="sexe" class="form-label">Sexe</label>
+                       
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sexe" id="femme" value="femme" required>
+                                        <label class="form-check-label" for="femme">Femme</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sexe" id="homme" value="homme" required>
+                                        <label class="form-check-label" for="homme">Homme</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sexe" id="autre" value="autre"  required>
+                                        <label class="form-check-label" for="autre">Autre</label>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10">
+
+                        </div>
+                        <div class="col-2">
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </div>
+                    </div>
+                    
+                </div>
+            
+                   
+              
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                    Information professionnelle
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <div class="row m-3">
+                        <div class="col-5">
+                            <div class="mb-3">
+                                <label for="Matricule" class="form-label">Matricule</label>
+                                <input type="text" class="form-control" name="Matricule" id="Matricule" required>
+                            </div>                            
+                        </div>
+                        <div class="col-1">
+                            <div class="mb-3">
+                                <label for="id_Grade" class="form-label">Grade</label>
+                                <select class="form-select" name="id_Grade" id="id_Grade" required>
+                                    <option value="1">A1</option>
+                                    <option value="2">A2</option>
+                                    <option value="3">A3</option>
+                                    <option value="4">A4</option>
+                                    <option value="5">A5</option>
+                                    <option value="6">A6</option>
+                                    <option value="7">A7</option>
+                                    <option value="8">B1</option>
+                                    <option value="9">B2</option>
+                                    <option value="10">B3</option>
+                                    <option value="11">C1</option>
+                                    <option value="12">C2</option>
+                                    <option value="13">C3</option>
+                                    <option value="14">D1</option>
+                                    <option value="15">D2</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="fonction" class="form-label">Fonction</label>
+                                <input type="text" class="form-control" name="fonction" id="fonction" required>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="row m-3">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="date_prise_service" class="form-label">Prise de service</label>
+                                <input type="date" class="form-control" name="date_prise_service" id="date_prise_service" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="date_debut" class="form-label">Date de début</label>
+                                <input type="date" class="form-control" name="date_debut" id="date_debut" required>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="row m-3">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="date_retraite" class="form-label">Date de retraite</label>
+                                <input type="date" class="form-control" name="date_retraite" id="date_retraite"  required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="email_institut" class="form-label">Email institut</label>
+                                <input type="email" class="form-control" name="email_institut" id="email_institut"  required>
+                            </div>
+                        </div>
+                      
+                        
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="prenoms" class="form-label">Prenoms</label>
-                <input type="text" class="form-control" name="prenoms" id="prenoms">
-            </div>
-        </div>
-    </div>
-    <div class="mb-3">
-        <label for="Matricule" class="form-label">Matricule</label>
-        <input type="text" class="form-control" name="Matricule" id="Matricule">
-    </div>
-    <div class="mb-3">
-        <label for="id_Grade" class="form-label">Grade</label>
-        <input type="text" class="form-control" name="id_Grade" id="id_Grade">
-    </div>
-    <div class="mb-3">
-        <label for="date_prise_service" class="form-label">Prise de service</label>
-        <input type="date" class="form-control" name="date_prise_service" id="date_prise_service">
-    </div>
-    <div class="mb-3">
-      <label for="date_Naiss" class="form-label">Date de naissance</label>
-      <input type="date" class="form-control" name="date_Naiss" id="date_Naiss">
-    </div>
-    <div class="mb-3">
-        <label for="date_debut" class="form-label">Date de début</label>
-        <input type="date" class="form-control" name="date_debut" id="date_debut">
-    </div>
-    <div class="mb-3">
-        <label for="date_retraite" class="form-label">Date de retraite</label>
-        <input type="date" class="form-control" name="date_retraite" id="date_retraite">
-    </div>
-    <div class="mb-3">
-        <label for="lieu_habitat" class="form-label">Lieu d'habitation</label>
-        <input type="text" class="form-control" name="lieu_habitat" id="lieu_habitat">
-    </div>
-    <div class="mb-3">
-        <label for="sit_matrimonial" class="form-label">Situation matrimoniale</label>
-        <input type="text" class="form-control" name="sit_matrimonial" id="sit_matrimonial">
-    </div>
-    <div class="mb-3">
-        <label for="nbre_Enfant" class="form-label">Nombre d'enfants</label>
-        <input type="number" class="form-control" name="nbre_Enfant" id="nbre_Enfant">
-    </div>
-    <div class="mb-3">
-      <label for="telephone" class="form-label">telephone</label>
-      <input type="number" class="form-control" name="telephone" id="telephone">
-  </div>
-  <div class="mb-3">
-    <label for="email_institut" class="form-label">email institut</label>
-    <input type="email" class="form-control" name="email_institut" id="email_institut">
-</div>
-<div class="mb-3">
-  <label for="email_perso" class="form-label">email institut</label>
-  <input type="email" class="form-control" name="email_perso" id="email_perso">
-</div>
+            
+    
+    
+
+  
+ 
+
     <!-- Ajoutez d'autres champs ici selon vos besoins -->
     <!-- <div class="mb-3">
         <label for="formFileMultiple" class="form-label">Sélectionner des fichiers</label>
