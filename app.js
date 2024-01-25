@@ -57,60 +57,56 @@ app.get("/",(req,res) =>{
     res.render("login.ejs")
 
 })
-app.get("/register",(req,res) =>{
-    res.sendFile(__dirname+"/views/register.html");
-    // res.render("login.ejs")
-})
+// app.get("/register",(req,res) =>{
+//     res.sendFile(__dirname+"/views/register.html");
+//     // res.render("login.ejs")
+// })
 app.get("/login",(req,res) =>{
     // res.sendFile(__dirname+"/views/login.html");
     res.render("login.ejs")
 })
 
-app.post("/login", function(req, res){
-  const username = req.body.username;
-  const password = req.body.password;
-
-  const selectUserQuery = 'SELECT * FROM users WHERE username = ?';
-
-  connection.query(selectUserQuery, [username], (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la recherche de l\'utilisateur :', err);
-      res.status(500).send('Erreur lors de la connexion.');
-    } else {
-      const foundUser = results[0];
-      console.log(foundUser)
-      if (foundUser && foundUser.password === password) {
-        res.render("accueil.ejs");
-      } else {
-        // res.status(401).send('Nom d\'utilisateur ou mot de passe incorrect.');
-        const erreur = "erreur sur le mot de passe ou le username"
-        res.render("login.ejs",{erreur:erreur});
-      }
+app.post("/login",async (req,res)=>{
+  const formData ={
+    username:req.body.username,
+    password:req.body.password
+  }
+  try{
+    const apiEndPoint = "http://127.0.0.1:8000/api/api/drh/drh/connexion";
+    const response = await axios.post(apiEndPoint,formData);
+    if(response.status===200){
+      res.render("accueil.ejs");
     }
-  });
-});
-
-app.post("/register",(req,res) =>{
-    const nom = req.body.nom;
-    const poste = req.body.poste;
-    const username = req.body.username;
-    const password = req.body.password;
-
-  const insertUserQuery = 'INSERT INTO users (nom, poste,username, password) VALUES (?, ?,?,?)';
-
-  connection.query(insertUserQuery, [nom,poste,username, password], (err, results) => {
-    if (err) {
-      console.error('Erreur lors de l\'insertion de l\'utilisateur :', err);
-      res.status(500).send('Erreur lors de l\'inscription.');
-    } else {
-      console.log('Utilisateur enregistré avec succès');
-      // res.sendFile(__dirname+"/views/login.html");
-      res.render("login.ejs")
-
+    else{
+      res.status(response.status).send("erreur connexion")
     }
-  });
-
+  }
+  catch(error){
+    console.error("erreur api");
+    res.status(500).send("erreur lors de la connexion")
+  }
 })
+// app.post("/register",(req,res) =>{
+//     const nom = req.body.nom;
+//     const poste = req.body.poste;
+//     const username = req.body.username;
+//     const password = req.body.password;
+
+//   const insertUserQuery = 'INSERT INTO users (nom, poste,username, password) VALUES (?, ?,?,?)';
+
+//   connection.query(insertUserQuery, [nom,poste,username, password], (err, results) => {
+//     if (err) {
+//       console.error('Erreur lors de l\'insertion de l\'utilisateur :', err);
+//       res.status(500).send('Erreur lors de l\'inscription.');
+//     } else {
+//       console.log('Utilisateur enregistré avec succès');
+//       // res.sendFile(__dirname+"/views/login.html");
+//       res.render("login.ejs")
+
+//     }
+//   });
+
+// })
 
 app.get("/dashboard",(req,res) =>{
  
