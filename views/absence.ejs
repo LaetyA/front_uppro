@@ -4,6 +4,39 @@
 
         <div class="main-content">
            
+          <form method="POST" action="/ajoutAbsence">
+            <div class="card">
+              <div class="card-header">
+                Ajout formation
+              </div>
+              <div class="card-body">
+               
+                <div class="mb-3">
+                  <label for="nomFormation" class="form-label">Motif de l'absence</label>
+                  <input type="text" class="form-control" id="motif" name="motif" required>
+                </div>
+          
+                <div class="row">
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="dateDebutAbsence" class="form-label">Date de début</label>
+                      <input type="date" class="form-control" id="dateDebutAbsence" name="dateDebutAbsence" required>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="dateFinAbsence" class="form-label">Date de fin</label>
+                      <input type="date" class="form-control" id="dateFinAbsence" name="dateFinAbsence" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+              </div>
+            </div>
+          </form>
             
 <form>
             

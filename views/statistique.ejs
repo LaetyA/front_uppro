@@ -1,0 +1,73 @@
+<%- include('partials/head.ejs') %>
+<body>
+  <%- include("base.ejs", { a: 7 }) %>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #graphContainer {
+      width: 100%;
+      display: block;
+      max-width: 1366px;
+      overflow-x: hidden;
+    }
+  </style>
+
+  <h1>Statistiques de retraite</h1>
+
+  <div id="graphContainer">
+    <div id="retraiteChart" style="width: 100%; height: 500px;"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      google.charts.load('current', { 'packages': ['corechart'] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        const rawData = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(data)) %>'));
+        const currentYear = new Date().getFullYear();
+
+        const retirementsByYear = rawData.reduce((acc, item) => {
+          const retireDate = item.date_retraite;
+          const year = new Date(retireDate).getFullYear();
+
+          if (!isNaN(year) && year >= currentYear - 1 && year <= currentYear + 5) {
+            const yearKey = year.toString();
+            acc[yearKey] = (acc[yearKey] || 0) + 1;
+          }
+          return acc;
+        }, {});
+
+        console.log('Retirements by Year:', retirementsByYear);
+        console.table(rawData); // Imprime les détails de chaque retraite dans la console
+
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Année');
+        data.addColumn('number', 'Nombre de départs à la retraite');
+
+        Object.entries(retirementsByYear).forEach(([year, count]) => {
+          data.addRow([year, count]);
+        });
+
+        const options = {
+          title: 'Statistiques de départs à la retraite par année',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+        };
+
+        const chart = new google.visualization.LineChart(document.getElementById('retraiteChart'));
+        chart.draw(data, options);
+      }
+    });
+  </script>
+</body>
+</html>

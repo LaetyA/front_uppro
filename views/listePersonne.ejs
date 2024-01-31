@@ -59,10 +59,103 @@
                                         </i>
                                         <i class="fas fa-edit" data-toggle="modal" data-target="#editModal<%= index %>" style="margin-right: 10px;"></i>
                                          <i class="fas fa-trash suppElt" data-toggle="modal" data-target="#deleteModal<%= index %>" data-id="<%= item.id_Perso %>"></i> 
-                                    
+										 <i class="fa-solid fa-circle-plus" data-toggle="modal" data-target="#ajoutModal<%= index %>" style="margin-left: 10px;"></i>
                                     </td>
 								</tr>
                                 
+								<!-- modal ajout -->
+								<!-- Modal pour le bouton "plus circle" -->
+<div class="modal fade" id="ajoutModal<%= index %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajout d'informations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <!-- Deux options cliquables -->
+                <button class="btn btn-primary" onclick="afficherFormulaire('absence')">Ajout Absence</button>
+                <button class="btn btn-primary" onclick="afficherFormulaire('formation')">Ajout Formation</button>
+
+                <!-- Les formulaires correspondants (initiallement cachés) -->
+                <div id="formAbsence" style="display: none;">
+                    <form method="POST" action="/ajoutAbsence">
+						<div class="card">
+						  <div class="card-header">
+							Ajout formation
+						  </div>
+						  <div class="card-body">
+							<input type="hidden" name="id_Perso" value="<%= item.id_Perso %>">
+
+							<div class="mb-3">
+							  <label for="nomFormation" class="form-label">Motif de l'absence</label>
+							  <input type="text" class="form-control" id="motif" name="motif" required>
+							</div>
+					  
+							<div class="row">
+							  <div class="col-6">
+								<div class="mb-3">
+								  <label for="dateDebutAbsence" class="form-label">Date de début</label>
+								  <input type="date" class="form-control" id="dateDebutAbsence" name="dateDebutAbsence" required>
+								</div>
+							  </div>
+							  <div class="col-6">
+								<div class="mb-3">
+								  <label for="dateFinAbsence" class="form-label">Date de fin</label>
+								  <input type="date" class="form-control" id="dateFinAbsence" name="dateFinAbsence" required>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="d-flex justify-content-center">
+							  <button type="submit" class="btn btn-primary">Valider</button>
+							</div>
+						  </div>
+						</div>
+					  </form>
+                </div>
+
+                <div id="formFormation" style="display: none;">
+					<form method="POST" action="/ajoutFormation">
+						<div class="card">
+						  <div class="card-header">
+							Ajout formation
+						  </div>
+						  <div class="card-body">
+						   
+							<div class="mb-3">
+							  <label for="nomFormation" class="form-label">Nom de la formation</label>
+							  <input type="text" class="form-control" id="nomFormation" name="nomFormation" required>
+							</div>
+					  
+							<div class="row">
+							  <div class="col-6">
+								<div class="mb-3">
+								  <label for="debutFormation" class="form-label">Date de début</label>
+								  <input type="date" class="form-control" id="debutFormation" name="debutFormation" required>
+								</div>
+							  </div>
+							  <div class="col-6">
+								<div class="mb-3">
+								  <label for="duree" class="form-label">Durée de la formation</label>
+								  <input type="text" class="form-control" id="durée" name="duree" required>
+								</div>
+							  </div>
+							</div>
+							
+							<div class="d-flex justify-content-center">
+							  <button type="submit" class="btn btn-primary">Valider</button>
+							</div>
+						  </div>
+						</div>
+					  </form>
+					  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 								<!-- Modal pour chaque ligne -->
 								<div class="modal fade" id="editModal<%= index %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog" role="document">
@@ -273,6 +366,7 @@
                                                              </div>
 														</div>
 													</div>
+													
 													<div class="d-flex justify-content-center">
 														<button type="submit" class="btn btn-primary" data-dismiss="modal">ok</button>
 													</div>
@@ -307,6 +401,22 @@
 						});
 				});
 			});
+			
+
+    function afficherFormulaire(type) {
+        // Cacher tous les formulaires
+        document.getElementById('formAbsence').style.display = 'none';
+        document.getElementById('formFormation').style.display = 'none';
+
+        // Afficher le formulaire correspondant à l'option sélectionnée
+        if (type === 'absence') {
+            document.getElementById('formAbsence').style.display = 'block';
+        } else if (type === 'formation') {
+            document.getElementById('formFormation').style.display = 'block';
+        }
+    }
+
+
 			</script>
 	</body>
 

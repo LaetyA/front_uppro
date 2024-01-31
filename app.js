@@ -52,6 +52,49 @@ app.use(express.static('public'));
 //   }
 // })
 
+
+app.get("/dashboard", async (req, res) => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
+    const persons = response.data.items;
+
+    const totalPersons = persons.length;
+    const teachers = persons.filter(person => person.fonction === 'Enseignant').length;
+    const administrativeStaff = persons.filter(person => person.fonction === 'Personnel Administratif').length;
+    const females = persons.filter(person => person.sexe === 'femme').length;
+
+    const percentageTeachers = (teachers / totalPersons) * 100;
+    const percentageAdministrativeStaff = (administrativeStaff / totalPersons) * 100;
+    const percentageFemales = (females / totalPersons) * 100;
+
+    res.render("accueil.ejs", {
+      data: {
+        exampleData: persons,
+        statistics: {
+          percentageTeachers,
+          percentageAdministrativeStaff,
+          percentageFemales
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Erreur lors de la requête API :", error.message);
+    res.status(500).render("error.ejs", { errorMessage: "Erreur lors de la requête API" });
+  }
+});
+
+
+app.get("/statistique", async (req, res) => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
+    const result = response.data.items;
+    res.render("statistique.ejs", { data: result });
+  } catch (error) {
+    console.error("Erreur lors de la requête API :", error.message);
+    res.status(500).render("error.ejs", { errorMessage: "Erreur lors de la requête API" });
+  }
+});
+
 app.get("/listeP", async (req, res) => {
   try {
     
@@ -229,6 +272,8 @@ app.post("/modifPerso/:id", async (req, res) => {
       email_institut: req.body.email_institut,
       email_perso: req.body.email_perso,
       telephone: req.body.telephone,
+      fonction:req.body.fonction,
+      sexe:req.body.sexe,
       id_Perso: req.params.id, // Utilisez req.params.id pour obtenir l'ID de l'URL
     };
 
@@ -263,6 +308,22 @@ app.get("/accueil",(req,res) =>{
 app.get('/ajouter-formation', (req, res) => {
   res.render('formation.ejs');
 })
+app.post("/ajoutFormation",async (req,res)=>{
+ try {
+  const formData ={
+    "nom_Forma": req.body.nomFormation,
+		"dure_Forma":req.body.duree,
+		"Date_Forma":req.body.debutFormation
+  }
+  const response = await axios.post("http://127.0.0.1:8000/api/api/drh/formation/ajouter",formData) 
+  console.log(formData)
+  console.log(response.data)
+  res.redirect("/ajouter-formation")
+ } catch (error) {
+  console.error("Erreur API : ", error.message);
+      res.status(500).send("Erreur appel API");
+ }
+})
 
 // Gérer la soumission du formulaire d'ajout de formation
 app.post('/ajouter-formation', (req, res) => {
@@ -291,10 +352,22 @@ app.get("/ajouter-absence", async (req, res) => {
 });
 
 // Gérer la soumission du formulaire d'ajout d'absence
-app.post('/ajouter-absence', (req, res) => {
- 
-  res.send('Formulaire d\'ajout d\'absence soumis avec succès');
-})
+app.post("/ajoutAbsence",async (req,res)=>{
+  try {
+   const formData ={
+    "id_Perso": req.body.id_Perso,
+    //  "nom_Forma": req.body.motif,
+     "date_Aller":req.body.dateDebutAbsence,
+     "motif_abs":req.body.dateFinAbsence
+   }
+   const response = await axios.post("http://127.0.0.1:8000/api/api/drh/absence/ajouter",formData) 
+   console.log(formData)
+   res.redirect("/listeP")
+  } catch (error) {
+   console.error("Erreur API : ", error.message);
+       res.status(500).send("Erreur appel API");
+  }
+ })
 
 app.listen(port,()=>{
     console.log(`listenning on port ${port} `)

@@ -4,44 +4,40 @@
 
         <div class="main-content" style="height: 900px;overflow-y: scroll;">
            
-            
-<form>
-            
-    <div class="row">
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Nom</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <form method="POST" action="/ajoutFormation">
+            <div class="card">
+              <div class="card-header">
+                Ajout formation
               </div>
-        </div>
-        <div class="col-6">
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Prenoms</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div class="card-body">
+               
+                <div class="mb-3">
+                  <label for="nomFormation" class="form-label">Nom de la formation</label>
+                  <input type="text" class="form-control" id="nomFormation" name="nomFormation" required>
+                </div>
+          
+                <div class="row">
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="debutFormation" class="form-label">Date de début</label>
+                      <input type="date" class="form-control" id="debutFormation" name="debutFormation" required>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="mb-3">
+                      <label for="finFormation" class="form-label">Date de fin</label>
+                      <input type="date" class="form-control" id="finFormation" name="finFormation" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
               </div>
-        </div>
-    </div>
-    
-    
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Formation</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      </div>
-
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Durée </label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      </div>
-      <div class="mb-3">
-        <label for="date" class="form-label">date de debut</label>
-        <input type="date" class="form-control" id="dateDebutAbsence" aria-describedby="emailHelp">
-      </div>
-      
-      <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary">Valider</button>
-    </div>
-    
-</form>
+            </div>
+          </form>
+          
 
             
         </div>
