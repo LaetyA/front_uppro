@@ -318,7 +318,7 @@ app.post("/ajoutFormation",async (req,res)=>{
   const response = await axios.post("http://127.0.0.1:8000/api/api/drh/formation/ajouter",formData) 
   console.log(formData)
   console.log(response.data)
-  res.redirect("/ajouter-formation")
+  res.redirect("/listP")
  } catch (error) {
   console.error("Erreur API : ", error.message);
       res.status(500).send("Erreur appel API");
@@ -358,10 +358,12 @@ app.post("/ajoutAbsence",async (req,res)=>{
     "id_Perso": req.body.id_Perso,
     //  "nom_Forma": req.body.motif,
      "date_Aller":req.body.dateDebutAbsence,
+     "date_Retour":req.body.dateFinAbsence,
      "motif_abs":req.body.dateFinAbsence
    }
    const response = await axios.post("http://127.0.0.1:8000/api/api/drh/absence/ajouter",formData) 
    console.log(formData)
+   console.log(response.data)
    res.redirect("/listeP")
   } catch (error) {
    console.error("Erreur API : ", error.message);
