@@ -325,14 +325,6 @@ app.post("/ajoutFormation",async (req,res)=>{
  }
 })
 
-// Gérer la soumission du formulaire d'ajout de formation
-app.post('/ajouter-formation', (req, res) => {
-  // Logique de traitement des données du formulaire de formation
-  // ...
-
-  // Rediriger vers une autre page ou renvoyer une réponse appropriée
-  res.send('Formulaire d\'ajout de formation soumis avec succès');
-})
 
 app.get("/ajouter-absence", async (req, res) => {
   try {
@@ -370,6 +362,77 @@ app.post("/ajoutAbsence",async (req,res)=>{
        res.status(500).send("Erreur appel API");
   }
  })
+
+
+
+// app.get('/listeAbsence', async (req, res) => {
+//     try {
+//         const response = await axios.get('http://127.0.0.1:8000/api/api/drh/absence/liste');
+//         let absences = response.data.items;
+
+//         // Trier les absences par date de retour (du plus ancien au plus récent)
+//         absences.sort((a, b) => new Date(a.date_Retour) - new Date(b.date_Retour));
+
+//         res.render('listeAbsence.ejs', { absences });
+//     } catch (error) {
+//         console.error('Erreur lors de la récupération des données :', error);
+//         res.status(500).send('Erreur lors de la récupération des données');
+//     }
+// });
+
+
+
+function formatDate(dateString) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString('fr-FR', options);
+}
+
+// Middleware pour rendre formatDate accessible dans le contexte EJS
+app.use((req, res, next) => {
+  res.locals.formatDate = formatDate;
+  next();
+});
+
+
+app.get('/listeAbsence', async (req, res) => {
+  try {
+      // Récupérer les informations de l'absence
+      const absenceResponse = await axios.get('http://127.0.0.1:8000/api/api/drh/absence/liste');
+      let absences = absenceResponse.data.items;
+      absences.sort((a, b) => new Date(a.date_Retour) - new Date(b.date_Retour));
+
+      // Récupérer les informations de toutes les personnes
+      const personneResponse = await axios.get('http://127.0.0.1:8000/api/api/drh/personnels/liste');
+      const personnels = personneResponse.data.items;
+
+      // Associer chaque absence à son nom et prénom correspondant
+      absences.forEach(absence => {
+          const personne = personnels.find(personne => personne.id_Perso === absence.id_Perso);
+          if (personne) {
+              absence.nom = personne.nom;
+              absence.prenoms = personne.prenoms;
+          } else {
+              absence.nom = 'Inconnu';
+              absence.prenoms = 'Inconnu';
+          }
+      });
+
+      // Rendre la page avec les informations de toutes les absences et de toutes les personnes
+      res.render('listeAbsence.ejs', { absences });
+  } catch (error) {
+      console.error('Erreur lors de la récupération des données :', error);
+      res.status(500).send('Erreur lors de la récupération des données');
+  }
+});
+
+
+
+
+
+
+
+
+
 
 app.listen(port,()=>{
     console.log(`listenning on port ${port} `)
