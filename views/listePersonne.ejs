@@ -15,7 +15,7 @@
 
 	<body>
 		<%- include("base.ejs",{a:2}) %>
-			<div class="main-content">
+			<div class="main-content" style="height: 900px;overflow-y: scroll;">
 				<table class="table table-bordered dataTable scrollable-table" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 					<thead>
 						<tr role="row">
@@ -82,7 +82,7 @@
                     <form method="POST" action="/ajoutAbsence">
 						<div class="card">
 						  <div class="card-header">
-							Ajout formation
+							Ajout Absence
 						  </div>
 						  <div class="card-body">
 							<input type="hidden" name="id_Perso" value="<%= item.id_Perso %>">

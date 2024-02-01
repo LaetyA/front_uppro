@@ -7,21 +7,22 @@
                 <img src="/sources/im1.png" alt="Logo" class="logo">
             </div>
             <div class="user-info">
-                <h3>Cani</h3>
-                <p>Admin <%= a %></p>
+                <h3>Jean</h3>
+                <p>Admin </p>
             </div>
             <ul class="navigation">
                 <li><a href="/accueil" <% if (a===1){ %> class="active" <% } %> >Accueil</a></li>
                 <li><a href="/personne" <% if (a===2){ %> class="active" <% } %>>Créer Personne</a></li>
-                <li class="dropdown">
+                <!-- <li class="dropdown">
                     <button class="dropbtn">Ajouter</button>
                     <div class="dropdown-content" id="dropdownOptions">
                         <a href="/ajouter-formation"<% if (a===3){ %> class="active" <% } %>>Formation</a>
                         <a href="/ajouter-absence"<% if (a===4){ %> class="active" <% } %>>Absence</a>
                     </div>
-                </li>
-                <li><a href="/listeP" <% if (a===5){ %> class="active" <% } %> >Voir Liste</a></li>
-                <li><a href="/historique" <% if (a===6){ %> class="active" <% } %> >Historique</a></li>
+                </li> -->
+                <li><a href="/listeP" <% if (a===5){ %> class="active" <% } %> >Informations personnes</a></li>
+                <li><a href="/listeAbsence" <% if (a===5){ %> class="active" <% } %> >Voir Liste Absents</a></li>
+                <!-- <li><a href="/historique" <% if (a===6){ %> class="active" <% } %> >Historique</a></li> -->
                 <li><a href="/statistique"<% if (a===7){ %> class="active" <% } %> >Statistique</a></li>   
             </ul>
         </div>

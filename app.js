@@ -244,7 +244,7 @@ app.post("/persoForm", async (req, res) => {
       // console.log(formData)
 
       const response = await axios.post("http://127.0.0.1:8000/api/api/drh/personnels/ajouter", formData);
-      // console.log(response.data);
+      console.log(response.data);
    
 
       res.redirect("/personne")
@@ -298,7 +298,8 @@ app.get('/ajouter', (req, res) => {
 
 })
 app.get("/historique",(req,res) =>{
-  res.render("absence.ejs")
+  // res.render("absence.ejs")
+  res.redirect("/accueil")
 })
 
 app.get("/accueil",(req,res) =>{
