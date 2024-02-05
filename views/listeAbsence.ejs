@@ -1,22 +1,28 @@
 <%- include('partials/head.ejs') %>
 <body>
     <%- include("base.ejs",{a:3}) %>
-    <div class="main-content" style="height: 900px;overflow-y: scroll;">
+    <div class="main-content" style="height: 750px;overflow-y: scroll;">
 
     <h1>Liste des absences</h1>
-    <ul>
-        <% absences.forEach(absence => { %>
-            
-                <!-- <p>ID: <%= absence.id_Abs %></p> -->
-                <p>Motif: <%= absence.motif_abs %></p>
-                <p>Date de départ: <%= formatDate(absence.date_Aller) %></p>
-                <p>Date de retour: <%= formatDate(absence.date_Retour) %></p>
-                <p>Nom: <%= absence.nom %></p>
-                <p>Prénoms: <%= absence.prenoms %></p>
-                <hr>
-           
-        <% }); %>
-    </ul>
+    <% 
+    // Triez les absences par nom
+    absences.sort((a, b) => a.nom.localeCompare(b.nom));
+    
+    // Variable pour garder une trace du nom de la dernière personne
+    let lastPersonName = null;
+    %>
+    
+    <% absences.forEach(absence => { %>
+        <% if (absence.nom !== lastPersonName) { %>
+            <h2><%= absence.nom %></h2>
+            <% lastPersonName = absence.nom; %>
+        <% } %>
+        
+        <p>Motif: <%= absence.motif_abs %></p>
+        <p>Date de départ: <%= formatDate(absence.date_Aller) %></p>
+        <p>Date de retour: <%= formatDate(absence.date_Retour) %></p>
+        <hr>
+    <% }); %>
     </div>
 
     <script>
@@ -27,4 +33,3 @@
     </script>
 </body>
 </html>
-
