@@ -10,24 +10,24 @@
             <!-- Row pour les graphiques -->
             <div class="row">
 
-                <!-- Graphique en anneau (Enseignants Chercheurs, Personnel Administratif) -->
+                <!-- Graphique en anneau (Enseignants, Personnel Administratif, Femmes) -->
                 <div class="col-md-4">
                     <div class="doughnut-container">
                         <canvas id="myDoughnutChart" width="300" height="300"></canvas>
                     </div>
                 </div>
 
-                <!-- Nouveau graphique en anneau (Femmes et Hommes parmi le Personnel Administratif) -->
-                <div class="col-md-4">
-                    <div class="doughnut-container">
-                        <canvas id="genderAdminChart" width="300" height="300"></canvas>
-                    </div>
-                </div>
-
-                <!-- Nouveau graphique en anneau (Femmes et Hommes parmi les Enseignants Chercheurs) -->
+                <!-- Graphique en anneau (Femmes dans les Enseignants) -->
                 <div class="col-md-4">
                     <div class="doughnut-container">
                         <canvas id="genderTeachersChart" width="300" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Graphique en anneau (Femmes dans le Personnel Administratif) -->
+                <div class="col-md-4">
+                    <div class="doughnut-container">
+                        <canvas id="genderAdminChart" width="300" height="300"></canvas>
                     </div>
                 </div>
 
@@ -37,138 +37,142 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Fonction utilitaire pour générer des nombres aléatoires
-        function generateRandomNumbers(count, min, max) {
-            const numbers = [];
-            for (let i = 0; i < count; i++) {
-                numbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+        // Fonction pour récupérer les données depuis votre API
+        async function fetchData(apiEndpoint) {
+            try {
+                const response = await fetch(apiEndpoint);
+                const data = await response.json();
+                console.log('Données récupérées:', data);  // Ajoutez ceci pour voir les données dans la console
+                return data;
+            } catch (error) {
+                console.error('Erreur lors de la récupération des données:', error);
             }
-            return numbers;
         }
 
-        // Données fictives pour le graphique en anneau (Enseignants Chercheurs, Personnel Administratif)
-        const DATA_COUNT = 2;
-        const NUMBER_CFG = { count: DATA_COUNT, min: 0, max: 100 };
+        // Fonction pour générer les graphiques à partir des données
+        async function generateCharts() {
+            const apiEndpoint = "http://127.0.0.1:8000/api/api/drh/personnels/liste";
 
-        const data = {
-          labels: ['Enseignants Chercheurs', 'Personnel Administratif'],
-          datasets: [
-            {
-              label: 'Types de Personnes',
-              data: generateRandomNumbers(NUMBER_CFG.count, NUMBER_CFG.min, NUMBER_CFG.max),
-              backgroundColor: ['#007BFF', '#28a745'],
-            },
-          ],
-        };
+            const personnelData = await fetchData(apiEndpoint);
+            const persons = personnelData.items;
 
-        // Configuration du graphique en anneau (Enseignants Chercheurs, Personnel Administratif)
-        const config = {
-          type: 'doughnut',
-          data: data,
-          options: {
-            responsive: false,
-            plugins: {
-              legend: {
-                position: 'top',
-              },
-              title: {
-                display: true,
-                text: 'personnel',
-              },
-            },
-          },
-        };
+            // Graphique 1 - Enseignants, Personnel Administratif, Femmes
+            const totalPersons = persons.length;
+            const teachers = persons.filter(person => person.fonction === 'Enseignant').length;
+            const administrativeStaff = persons.filter(person => person.fonction === 'Personnel Administratif').length;
+            const females = persons.filter(person => person.sexe === 'femme').length;
 
-        // Création du graphique en anneau (Enseignants Chercheurs, Personnel Administratif)
-        var ctx = document.getElementById('myDoughnutChart').getContext('2d');
-        var myDoughnutChart = new Chart(ctx, config);
+            //const percentageTeachers = (teachers / totalPersons) * 100;
+            //const percentageAdministrativeStaff = (administrativeStaff / totalPersons) * 100;
+            //const percentageFemales = (females / totalPersons) * 100;
 
-        // Afficher les pourcentages au centre du graphique global
-        var canvasGlobal = document.getElementById('myDoughnutChart');
-        var ctxGlobal = canvasGlobal.getContext('2d');
-        var centerXGlobal = canvasGlobal.width / 2;
-        var centerYGlobal = canvasGlobal.height / 2;
+            const data1 = {
+                labels: ['Enseignants', 'Personnel Administratif', 'Femmes'],
+                datasets: [
+                    {
+                        label: 'Types de Personnes',
+                        data: [teachers, administrativeStaff, females],
+                        backgroundColor: ['#007BFF', '#28a745', '#e83e8c'],
+                    },
+                ],
+            };
 
-        ctxGlobal.font = '18px Arial';
-        ctxGlobal.fillStyle = '#007BFF';
-        ctxGlobal.textAlign = 'center';
-        ctxGlobal.fillText('50%', centerXGlobal, centerYGlobal - 10);
+            const config1 = {
+                type: 'doughnut',
+                data: data1,
+                options: {
+                    responsive: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Personnel',
+                        },
+                    },
+                },
+            };
 
-        ctxGlobal.fillStyle = '#28a745';
-        ctxGlobal.fillText('30%', centerXGlobal, centerYGlobal + 20);
+            var ctx1 = document.getElementById('myDoughnutChart').getContext('2d');
+            var myDoughnutChart1 = new Chart(ctx1, config1);
 
-        // Données fictives pour le nouveau graphique en anneau (Femmes et Hommes parmi le Personnel Administratif)
-        const genderAdminData = {
-          labels: ['Femmes', 'Hommes'],
-          datasets: [
-            {
-              label: 'Genre du Personnel Administratif',
-              data: generateRandomNumbers(NUMBER_CFG.count, NUMBER_CFG.min, NUMBER_CFG.max),
-              backgroundColor: ['#FF1493', '#4682B4'],
-            },
-          ],
-        };
+            // Graphique 2 - Femmes dans les Enseignants
+            const femaleTeachers = persons.filter(person => person.fonction === 'Enseignant' && person.sexe === 'femme').length;
 
-        // Configuration du nouveau graphique en anneau (Femmes et Hommes parmi le Personnel Administratif)
-        const genderAdminConfig = {
-          type: 'doughnut',
-          data: genderAdminData,
-          options: {
-            responsive: false,
-            plugins: {
-              legend: {
-                position: 'top',
-              },
-              title: {
-                display: true,
-                text: 'personnel administratif',
-              },
-            },
-          },
-        };
+            const data2 = {
+                labels: ['Femmes', 'Hommes'],
+                datasets: [
+                    {
+                        label: 'Femmes dans les Enseignants',
+                        data: [femaleTeachers, teachers - femaleTeachers],
+                        backgroundColor: ['#e83e8c', '#007BFF'],
+                    },
+                ],
+            };
 
-        // Création du nouveau graphique en anneau (Femmes et Hommes parmi le Personnel Administratif)
-        var genderAdminCtx = document.getElementById('genderAdminChart').getContext('2d');
-        var genderAdminChart = new Chart(genderAdminCtx, genderAdminConfig);
+            const config2 = {
+                type: 'doughnut',
+                data: data2,
+                options: {
+                    responsive: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Femmes dans les Enseignants',
+                        },
+                    },
+                },
+            };
 
-        // Données fictives pour le nouveau graphique en anneau (Femmes et Hommes parmi les Enseignants Chercheurs)
-        const genderTeachersData = {
-          labels: ['Femmes', 'Hommes'],
-          datasets: [
-            {
-              label: 'Genre des Enseignants Chercheurs',
-              data: generateRandomNumbers(NUMBER_CFG.count, NUMBER_CFG.min, NUMBER_CFG.max),
-              backgroundColor: ['#FF1493', '#4682B4'],
-            },
-          ],
-        };
+            var ctx2 = document.getElementById('genderTeachersChart').getContext('2d');
+            var genderTeachersChart = new Chart(ctx2, config2);
 
-        // Configuration du nouveau graphique en anneau (Femmes et Hommes parmi les Enseignants Chercheurs)
-        const genderTeachersConfig = {
-          type: 'doughnut',
-          data: genderTeachersData,
-          options: {
-            responsive: false,
-            plugins: {
-              legend: {
-                position: 'top',
-              },
-              title: {
-                display: true,
-                text: 'Enseignent chercheur',
-              },
-            },
-          },
-        };
+            // Graphique 3 - Femmes dans le Personnel Administratif
+            const femaleAdmin = persons.filter(person => person.fonction === 'Personnel Administratif' && person.sexe === 'femme').length;
 
-        // Création du nouveau graphique en anneau (Femmes et Hommes parmi les Enseignants Chercheurs)
-        var genderTeachersCtx = document.getElementById('genderTeachersChart').getContext('2d');
-        var genderTeachersChart = new Chart(genderTeachersCtx, genderTeachersConfig);
+            const data3 = {
+                labels: ['Femmes', 'Hommes'],
+                datasets: [
+                    {
+                        label: 'Femmes dans le Personnel Administratif',
+                        data: [femaleAdmin, administrativeStaff - femaleAdmin],
+                        backgroundColor: ['#e83e8c', '#28a745'],
+                    },
+                ],
+            };
+
+            const config3 = {
+                type: 'doughnut',
+                data: data3,
+                options: {
+                    responsive: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Femmes dans le Personnel Administratif',
+                        },
+                    },
+                },
+            };
+
+            var ctx3 = document.getElementById('genderAdminChart').getContext('2d');
+            var genderAdminChart = new Chart(ctx3, config3);
+        }
+
+        // Appeler la fonction pour générer les graphiques lorsque le DOM est chargé
+        document.addEventListener('DOMContentLoaded', function () {
+            generateCharts();
+        });
     </script>
 </body>
 </html>

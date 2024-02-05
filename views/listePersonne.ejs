@@ -15,7 +15,7 @@
 
 	<body>
 		<%- include("base.ejs",{a:2}) %>
-			<div class="main-content" style="height: 900px;overflow-y: scroll;">
+			<div class="main-content" style="height: 650px;overflow-y: scroll;">
 				<table class="table table-bordered dataTable scrollable-table" id="dataTable" cellspacing="0" role="grid" aria-describedby="dataTable_info">
 					<thead>
 						<tr role="row">
@@ -88,7 +88,7 @@
 							<input type="hidden" name="id_Perso" value="<%= item.id_Perso %>">
 
 							<div class="mb-3">
-							  <label for="nomFormation" class="form-label">Motif de l'absence</label>
+							  <label for="motifAbsence" class="form-label">Motif de l'absence</label>
 							  <input type="text" class="form-control" id="motif" name="motif" required>
 							</div>
 					  

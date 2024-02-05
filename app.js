@@ -210,10 +210,40 @@ app.post("/login", async (req, res) => {
 
 // })
 
-app.get("/dashboard",(req,res) =>{
+// app.get("/dashboard",(req,res) =>{
  
-    res.render("accueil.ejs")
-})
+//     res.render("accueil.ejs")
+// })
+app.get("/dashboard", async (req, res) => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/api/api/drh/personnels/liste");
+    const persons = response.data.items;
+
+    const totalPersons = persons.length;
+    const teachers = persons.filter(person => person.fonction === 'Enseignant').length;
+    const administrativeStaff = persons.filter(person => person.fonction === 'Personnel Administratif').length;
+    const females = persons.filter(person => person.sexe === 'femme').length;
+
+    const percentageTeachers = (teachers / totalPersons) * 100;
+    const percentageAdministrativeStaff = (administrativeStaff / totalPersons) * 100;
+    const percentageFemales = (females / totalPersons) * 100;
+
+    res.render("accueil.ejs", {
+      data: {
+        exampleData: persons,
+        statistics: {
+          percentageTeachers,
+          percentageAdministrativeStaff,
+          percentageFemales
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Erreur lors de la requête API :", error.message);
+    res.status(500).render("error.ejs", { errorMessage: "Erreur lors de la requête API" });
+  }
+});
+
 app.get("/personne",async (req,res)=>{
   res.render("personne.ejs")
  
@@ -293,10 +323,6 @@ app.post("/modifPerso/:id", async (req, res) => {
 
 
 
-app.get('/ajouter', (req, res) => {
-  const typeAjout = req.query.type_ajout;
-
-})
 app.get("/historique",(req,res) =>{
   // res.render("absence.ejs")
   res.redirect("/accueil")
@@ -352,7 +378,7 @@ app.post("/ajoutAbsence",async (req,res)=>{
     //  "nom_Forma": req.body.motif,
      "date_Aller":req.body.dateDebutAbsence,
      "date_Retour":req.body.dateFinAbsence,
-     "motif_abs":req.body.dateFinAbsence
+     "motif_abs":req.body.motif
    }
    const response = await axios.post("http://127.0.0.1:8000/api/api/drh/absence/ajouter",formData) 
    console.log(formData)

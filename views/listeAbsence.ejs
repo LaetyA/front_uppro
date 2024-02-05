@@ -6,13 +6,13 @@
     <h1>Liste des absences</h1>
     <ul>
         <% absences.forEach(absence => { %>
-            <p>Nom: <%= absence.nom %></p>
-            <p>Prénoms: <%= absence.prenoms %></p>
+            
                 <!-- <p>ID: <%= absence.id_Abs %></p> -->
-                <p>Date de départ: <%= formatDate(absence.date_Aller) %></p>
                 <p>Motif: <%= absence.motif_abs %></p>
+                <p>Date de départ: <%= formatDate(absence.date_Aller) %></p>
                 <p>Date de retour: <%= formatDate(absence.date_Retour) %></p>
-                
+                <p>Nom: <%= absence.nom %></p>
+                <p>Prénoms: <%= absence.prenoms %></p>
                 <hr>
            
         <% }); %>
